@@ -120,13 +120,6 @@
   });
 
   describe('blocks.toArray([])', function () {
-    expressionIt('converts primitive to an array', {
-      name: 'toArray',
-      value: 2,
-      args: [],
-      result: [2]
-    });
-
     it('arguments object converted into array', function () {
       expect(blocks.isArray(arguments)).toBe(false);
       expect(blocks.isArray(blocks.toArray(arguments))).toBe(true);
@@ -152,6 +145,10 @@
       } catch (ex) { }
 
       expect(blocks.isArray(actual)).toBe(true);
+    });
+
+    it('converts primitive to an array', function () {
+      expect(blocks.toArray(2)).toEqual([2]);
     });
   });
 
