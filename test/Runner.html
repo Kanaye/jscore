@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+  <title>JSBlocks Spec Runner</title>
+  <link rel='stylesheet' type='text/css' href='../lib/jasmine/jasmine.css'>
+
+  <script src='../lib/jquery/jquery.js'></script>
+
+  <script src='../lib/jasmine/jasmine.js'></script>
+  <script src='../lib/jasmine/jasmine-html.js'></script>
+
+
+  <!-- include source files here... -->
+  <script src='../blocks-core.js'></script>
+
+  <!-- include spec files here... -->
+  <script src='spec/methods.spec.js'></script>
+
+  <script>
+  $(runJasmine);
+
+  function runJasmine() {
+    var jasmineEnv = jasmine.getEnv();
+    jasmineEnv.updateInterval = 500;
+
+    var htmlReporter = new jasmine.HtmlReporter();
+
+    jasmineEnv.addReporter(htmlReporter);
+
+    jasmineEnv.specFilter = function (spec) {
+      return htmlReporter.specFilter(spec);
+    };
+
+    var finishCallbackOriginal = jasmineEnv.currentRunner().finishCallback;
+    jasmineEnv.currentRunner().finishCallback = function () {
+      finishCallbackOriginal.apply(this, arguments);
+      var shouldSelect = true;
+
+      $('.specDetail').mousemove(function (e) {
+        if (!shouldSelect) {
+          return;
+        }
+
+        function selectElementContents(el) {
+          if (window.getSelection && document.createRange) {
+            var sel = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            sel.removeAllRanges();
+            sel.addRange(range);
+          } else if (document.selection && document.body.createTextRange) {
+            var textRange = document.body.createTextRange();
+            textRange.moveToElementText(el);
+            textRange.select();
+          }
+        }
+
+        selectElementContents($(e.currentTarget).find('.copy-test-name-text').get(0));
+      }).mousedown(function () {
+        shouldSelect = false;
+      }).mouseup(function () {
+        shouldSelect = true;
+      });
+    };
+
+    jasmineEnv.execute();
+  }
+  </script>
+</head>
+<body>
+  <div class='header'>
+    <div class='content'>
+
+    </div>
+  </div>
+</body>
+</html>

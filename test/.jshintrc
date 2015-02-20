@@ -1,0 +1,16 @@
+{
+  "newcap": false,
+  //Do not use {a} as a constructor
+  "-W053": false,
+
+  "globals": {
+    "blocks": true,
+
+    "beforeEach": true,
+    "afterEach": true,
+    "describe": true,
+    "expect": true,
+    "it": true,
+    "spyOn": true
+  }
+}
