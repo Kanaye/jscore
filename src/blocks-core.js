@@ -37,6 +37,7 @@
     return value;
   };
 
+  blocks.version = '0.9.0';
   blocks.core = core;
 
   /**
