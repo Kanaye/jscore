@@ -1,49 +1,6 @@
 (function () {
   'use strict';
 
-  describe('window global objects count', function () {
-    it('shouldnt have any new global properties created', function () {
-      $.ajax({
-        url: '../dist/blocks.js',
-        async: false,
-        complete: function (code) {
-          var iframe = document.createElement('iframe');
-          var iframeDocument;
-          //iframe.innerHTML = '<html><body>asd</body></html>';
-          document.body.appendChild(iframe);
-
-
-          if (iframe.contentDocument) { // DOM
-            iframeDocument = iframe.contentDocument;
-          }
-          else if (iframe.contentWindow) { // IE win
-            iframeDocument = iframe.contentWindow.document;
-          }
-          iframeDocument.write('<head></head><body></body>');
-
-          var countGlobalObjectsScriptBefore = document.createElement('script');
-          countGlobalObjectsScriptBefore.text = '' +
-              'var objectsCount = { before: 0, beforeKeys: {}, newKeys: {}, after: 0 };' +
-              'for (var key in window) { objectsCount.beforeKeys[key] = true; objectsCount.before++; }';
-          iframeDocument.body.appendChild(countGlobalObjectsScriptBefore);
-
-          var blocksScript = document.createElement('script');
-          blocksScript.text = code.responseText;
-          iframeDocument.body.appendChild(blocksScript);
-
-          var countGlobalObjectsScriptAfter = document.createElement('script');
-          countGlobalObjectsScriptAfter.text = '' +
-              'for (var key in window) { if (!objectsCount.beforeKeys[key] && key != "blocks") { objectsCount.newKeys[key] = true; } objectsCount.after++; }';
-          iframeDocument.body.appendChild(countGlobalObjectsScriptAfter);
-
-          expect(iframe.contentWindow.objectsCount.newKeys).toEqual({});
-
-          document.body.removeChild(iframe);
-        }
-      });
-    });
-  });
-
   describe('blocks.extend()', function () {
     it('can extend an object with the attributes of another', function () {
       expect(blocks.extend({}, {
