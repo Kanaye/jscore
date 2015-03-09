@@ -39,6 +39,7 @@
 
   blocks.version = '0.9.0';
   blocks.core = core;
+  blocks.debug = {};
 
   /**
    * Works like [jQuery extend](@link )
