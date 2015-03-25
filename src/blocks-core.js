@@ -37,9 +37,8 @@
     return value;
   };
 
-  blocks.version = '0.9.0';
+  blocks.version = '0.8.0';
   blocks.core = core;
-  blocks.debug = {};
 
   /**
    * Works like [jQuery extend](@link )
@@ -1095,18 +1094,24 @@
   }
 
   (function () {
+    // @debug-code
+  })();
+
+  (function () {
     // @source-code
   })();
 
+  /* @if DEBUG */
   (function() {
     var toString = blocks.toString;
     blocks.toString = function(value) {
       if (arguments.length === 0) {
-        return 'jsblocks - faster MV-ish framework';
+        return 'jsblocks - better MV-ish framework';
       }
       return toString(value);
     };
   })();
+  /* @endif */
 
   var _blocks = global.blocks;
 
