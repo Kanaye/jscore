@@ -469,16 +469,18 @@
      * blocks.$unwrap()
      */
     $unwrap: function(element, callback, thisArg) {
-      // check if jQuery and get the first element in the colleciton
-      // Note: Consider looping through all elements in the jQuery collection
+      callback = parseCallback(callback, thisArg);
+
       if (element && element.jquery) {
         if (callback) {
-          element.each(callback, thisArg);
+          element.each(function () {
+            callback(this);
+          });
         }
         element = element[0];
       } else {
         if (callback) {
-          callback.call(thisArg || element, element);
+          callback(element);
         }
       }
 
