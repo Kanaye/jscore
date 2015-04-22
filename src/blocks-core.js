@@ -41,7 +41,8 @@
   blocks.core = core;
 
   /**
-   * Works like [jQuery extend](@link )
+   * Copies properties from all provided objects into the first object parameter
+   *
    * @memberof blocks
    * @param {Object} obj
    * @param {...Object} objects
@@ -411,11 +412,6 @@
       return !!(obj && hasOwn.call(obj, key));
     },
 
-    /**
-     * @memberof blocks
-     * @param {*} value
-     * @returns {boolean}
-     */
     hasValue: function(value) {
       return value != null && (!blocks.isNumber(value) || !isNaN(value));
     },
@@ -430,8 +426,8 @@
     },
 
     /**
-     * Unwraps a JSBlocks value to its raw representation.
-     * Unwraps blocks.observable() and blocks() values.
+     * Unwraps a jsblocks value to its raw representation.
+     * Unwraps blocks.observable() and blocks() values
      *
      * @memberof blocks
      * @param {*} value - The value that will be unwrapped
@@ -783,14 +779,6 @@
 
     nothing: {},
 
-    /**
-     *
-     *
-     * @param {Object} obj 
-     * @param {String} path
-     * @param {*} defaultValue
-     * @returns {[type]}              [description]
-     */
     access: function(obj, path, defaultValue) {
       var index = 0;
       var name;
@@ -809,13 +797,6 @@
       return obj;
     },
 
-    /**
-     * Description
-     * @param {Array} array -
-     * @param {Number} indexA -
-     * @param {Number} indexB -
-     * @returns {Array}
-     */
     swap: function(array, indexA, indexB) {
       var length = array.length;
       if (indexA >= 0 && indexB >= 0 && indexA < length && indexB < length) {
@@ -824,13 +805,6 @@
       return array;
     },
 
-    /**
-     *
-     * @param {Array} array -
-     * @param {Number} sourceIndex -
-     * @param {Number} targetIndex -
-     * @returns {Array}
-     */
     move: function(array, sourceIndex, targetIndex) {
       if (sourceIndex != targetIndex) {
         if (sourceIndex <= targetIndex) {
@@ -1108,7 +1082,7 @@
     var toString = blocks.toString;
     blocks.toString = function(value) {
       if (arguments.length === 0) {
-        return 'jsblocks - better MV-ish framework';
+        return 'jsblocks - Better MV-ish Framework';
       }
       return toString(value);
     };
