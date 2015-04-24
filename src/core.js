@@ -1037,15 +1037,22 @@
   };
 
   function _super(name, args) {
+    var Class = this.__Class__;
+    var result;
     var func;
+
     if (blocks.isString(name)) {
-      func = this.__Class__.prototype[name];
+      func = Class.prototype[name];
     } else {
       args = name;
-      func = this.__Class__;
+      func = Class;
     }
 
-    return func.apply(this, args || []);
+    this.__Class__ = Class.prototype.__Class__;
+    result = func.apply(this, args || []);
+    this.__Class__ = Class;
+
+    return result;
   }
 
   var objectCreate = Object.create || function(prototype) {

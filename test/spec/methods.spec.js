@@ -1,6 +1,124 @@
 (function () {
   'use strict';
 
+  describe('blocks.inherit()', function () {
+    it('should create a class with only a constructor function', function () {
+      var created = false;
+      var Person = blocks.inherit(function () {
+        created = true;
+      });
+      new Person();
+      expect(created).toBe(true);
+    });
+
+    it('should create a class with constructor and prototype', function () {
+      var created = false;
+      var executed = false;
+      var Person = blocks.inherit(function () {
+        created = true;
+      }, {
+        execute: function () {
+          executed = true;
+        }
+      });
+      var person = new Person();
+      person.execute();
+
+      expect(executed).toBe(true);
+    });
+
+    it('should inherit from another class correctly', function () {
+      var executed = false;
+      var performed = false;
+      var Car = blocks.inherit(function () {
+
+      }, {
+        execute: function () {
+          executed = true;
+        }
+      });
+      var Model = blocks.inherit(Car, function () {
+
+      }, {
+        perform: function () {
+          performed = true;
+        }
+      });
+
+      var model = new Model();
+      model.perform();
+      model.execute();
+
+      expect(executed).toBe(true);
+      expect(performed).toBe(true);
+    });
+
+    it('_super() should not cause recursion with 2 level deep call', function () {
+      var executed = false;
+      var Class1 = blocks.inherit(function () {
+
+      }, {
+        execute: function () {
+          executed = true;
+        }
+      });
+      var Class2 = blocks.inherit(Class1, function () {
+
+      }, {
+        execute: function () {
+          this._super('execute');
+        }
+      });
+      var Class3 = blocks.inherit(Class2, function () {
+
+      }, {
+        execute: function () {
+          this._super('execute');
+        }
+      });
+      var class3 = new Class3();
+      class3.execute();
+
+      expect(executed).toBe(true);
+    });
+
+    it('_super() should not cause recursion with 3 level deep call', function () {
+      var executed = false;
+      var Class1 = blocks.inherit(function () {
+
+      }, {
+        execute: function () {
+          executed = true;
+        }
+      });
+      var Class2 = blocks.inherit(Class1, function () {
+
+      }, {
+        execute: function () {
+          this._super('execute');
+        }
+      });
+      var Class3 = blocks.inherit(Class2, function () {
+
+      }, {
+        execute: function () {
+          this._super('execute');
+        }
+      });
+      var Class4 = blocks.inherit(Class3, function () {
+
+      }, {
+        execute: function () {
+          this._super('execute');
+        }
+      });
+      var class4 = new Class4();
+      class4.execute();
+
+      expect(executed).toBe(true);
+    });
+  });
+
   describe('blocks.extend()', function () {
     it('can extend an object with the attributes of another', function () {
       expect(blocks.extend({}, {
