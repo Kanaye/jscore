@@ -44,6 +44,7 @@
    * Copies properties from all provided objects into the first object parameter
    *
    * @memberof blocks
+   * @param {boolean} [deepCopy] - If true, the merge becomes recursive (aka. deep copy)
    * @param {Object} obj
    * @param {...Object} objects
    * @returns {Object}
