@@ -557,6 +557,10 @@
       var clone;
       var key;
 
+      if (blocks.isFunction(value.clone)) {
+        return value.clone(deepClone);
+      }
+
       if (type == 'array') {
         return value.slice(0);
       } else if (type == 'object') {
