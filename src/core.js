@@ -858,6 +858,47 @@
     },
 
     /**
+     * Converts an array of keys and an array of values to an object.
+     * If no value array is specified the values will be set to true.
+     * @param  {String[]|Object[]} array The array of keys or an array of 
+     *                             objects containing objects with key and value properties.
+     * @param  {*[]} [values] The array of values.
+     * @returns {Object}  The object with the combined keys and values.
+     *
+     * @example {javascript}
+     *
+     * var keys = ['a', 'b', 'c'];
+     * var values = [1, 2, 3];
+     * blocks.toObject(keys, values);
+     * // -> {a: 1, b: 2, c: 3}
+     *
+     * blocks.toObject(keys);
+     * // -> {a: true, b: true, c: true}
+     *
+     * blocks.toObject([{key: 'a', value: 1}, {key: 'b', value: 2}]);
+     * // -> {a: 1, b: 2}
+     */
+    toObject: function (array, values) {
+      var result = {},
+          useValuesArray = arguments.length > 1 && values,
+          i = 0,
+          length = array.length,
+          value;
+
+      for (; i < length; i++) {
+        value = array[i];
+        if (blocks.isArray(value)) {
+          result[value[0]] = value[1];
+        } else if (blocks.isObject(value)) {
+          result[value.key] = value.value;
+        } else {
+          result[value] = useValuesArray ? values[i] : true;
+        }
+      }
+      return result;
+    },
+
+    /**
      * Determines if two values are deeply equal.
      * Set deepEqual to false to stop recusively equality checking
      *
