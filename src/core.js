@@ -899,6 +899,28 @@
     },
 
     /**
+     * Converts an given object into an array of objects with properties key and value.
+     * Where key is the property name in the original object and value is the value of the property.
+     * @param  {Object} obj The object to convert.
+     * @returns {Object[]} An array of objects with the key/value pairs.
+     *
+     * @example {javascript}
+     * var myObject = {
+     *   a: 1,
+     *   b: "something"
+     * };
+     * blocks.pairs(myObject);
+     * // -> [{key: a, value: 1}, {key: b, value: "someting"}]
+     */
+    pairs: function (obj) {
+      var pairs = [];
+      for (var key in obj) {
+        pairs.push({key: key, value: object[key]});
+      }
+      return pairs;
+    },
+
+    /**
      * Determines if two values are deeply equal.
      * Set deepEqual to false to stop recusively equality checking
      *
