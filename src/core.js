@@ -556,9 +556,9 @@
      * Clones value. If deepClone is set to true the value will be cloned recursively
      *
      * @memberof blocks
-     * @param {*} value -
-     * @param {boolean} [deepClone] - Description
-     * @returns {*} Description
+     * @param {*} value - The value to clone.
+     * @param {boolean} [deepClone] - If true it will be a deep clone.
+     * @returns {*} - The cloned object.
      *
      * @example {javascript}
      * var array = [3, 1, 4];
@@ -860,10 +860,10 @@
     /**
      * Converts an array of keys and an array of values to an object.
      * If no value array is specified the values will be set to true.
-     * @param  {String[]|Object[]} array The array of keys or an array of 
+     * @param {String[]|Object[]} array - The array of keys or an array of
      *                             objects containing objects with key and value properties.
-     * @param  {*[]} [values] The array of values.
-     * @returns {Object}  The object with the combined keys and values.
+     * @param {*[]} [values] - The array of values.
+     * @returns {Object}  - The object with the combined keys and values.
      *
      * @example {javascript}
      *
@@ -901,8 +901,8 @@
     /**
      * Converts an given object into an array of objects with properties key and value.
      * Where key is the property name in the original object and value is the value of the property.
-     * @param  {Object} obj The object to convert.
-     * @returns {Object[]} An array of objects with the key/value pairs.
+     * @param {Object} obj - The object to convert.
+     * @returns {Object[]}  - An array of objects with the key/value pairs.
      *
      * @example {javascript}
      * var myObject = {
@@ -915,9 +915,36 @@
     pairs: function (obj) {
       var pairs = [];
       for (var key in obj) {
-        pairs.push({key: key, value: object[key]});
+        pairs.push({key: key, value: obj[key]});
       }
       return pairs;
+    },
+
+    /**
+     * Flattens an array of values.
+     * @param {Array} collection - The array to flatten.
+     * @param {boolean} [shallow=false] - If true makes the flatten shallow.
+     * @returns {Array} - The flattend array.
+     *
+     * @example {javascript}
+     * var unflattend = [1, 2, [3, [4, 5]]];
+     * blocks.flatten(unflattend);
+     * // -> [1, 2, 3, 4, 5]
+     * blocks.flatten(unflattend, true);
+     * // -> [1, 2, 3, [4, 5]]
+     */
+    flatten: function (collection, shallow) {
+      var flatten = blocks.core.flatten;
+      var result = [];
+      var length = collection.length;
+      var value;
+      var index = -1;
+
+      while (++index < length) {
+          value = collection[index];
+          flatten(shallow, value, result);
+      }
+      return result;
     },
 
     /**
@@ -1129,6 +1156,19 @@
     return callback;
   }
 
+  core.flatten = function (shallow, value, result) {
+    if (blocks.isArray(value) || blocks.isArguments(value)) {
+      if (shallow) {
+        result.push.apply(result, value);
+      } else {
+        for (var i = 0; i < value.length; i++) {
+          core.flatten(shallow, value[i], result);
+        }
+      }
+    } else {
+      result.push(value);
+    }
+  };
 
   // @debug-code
 
